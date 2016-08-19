@@ -3,7 +3,7 @@
 
 # # Preprocessing csv files
 
-# In[5]:
+# In[1]:
 
 import numpy as np
 import pandas as pd
@@ -12,12 +12,12 @@ import os
 
 # ## Load Data
 
-# In[6]:
+# In[2]:
 
 mypath = "./futures_data"
 
 
-# In[ ]:
+# In[3]:
 
 def excel_parsing(excel):
     train = pd.read_excel(mypath + "/" + excel)
@@ -62,7 +62,7 @@ def excel_parsing(excel):
     return train
 
 
-# In[28]:
+# In[4]:
 
 all_df = pd.DataFrame(columns=['날짜',
                   '순위',
@@ -95,17 +95,28 @@ for file_name in file_names :
     
 
 
-# In[29]:
+# In[5]:
 
 all_df
 
 
-# In[30]:
+# In[7]:
+
+all_df.info()
+
+
+# In[8]:
+
+all_df = all_df.reset_index() # 전체 엑셀파일 데이터 다 모으고 하면됌
+all_df = all_df.drop('index',axis=1)
+
+
+# In[9]:
+
+all_df.info()
+
+
+# In[10]:
 
 all_df.to_csv('all_data.csv', index=False)
-
-
-# In[ ]:
-
-
 
