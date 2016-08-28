@@ -21,13 +21,14 @@ train.head(3)
 
 # In[3]:
 
-from sklearn.cross_validation import cross_val_score
-
 feature_names = ["누적매출액"]
 label_name = "누적관객수"
 
 train_X = train[feature_names]
 train_y = train[label_name]
+
+X = np.array(train_X)
+Y = np.array(train_y)
 
 
 # ## Score
@@ -35,18 +36,28 @@ train_y = train[label_name]
 # In[4]:
 
 from sklearn.svm import LinearSVR
+from sklearn.ensemble import RandomForestRegressor
+
+from sklearn.cross_validation import cross_val_score
+from sklearn.cross_validation import KFold
 
 
 # In[5]:
 
-clf = LinearSVR(C=1.0, max_iter=100)
+svr = LinearSVR(C=1.0, max_iter=100)
+rfr = RandomForestRegressor(n_estimators=10, n_jobs=-1)
 
 
 # In[6]:
 
-score = cross_val_score(clf, train_X, train_y, scoring='median_absolute_error', cv=5).mean()
-print("SVR = {0:.6f}".format(-1.0 * score))
+K = KFold(len(Y), n_folds=5)
+scores_svr = cross_val_score(svr, X, Y, scoring='median_absolute_error', cv=K)
+scores_rfr = cross_val_score(rfr, X, Y, scoring='median_absolute_error', cv=K)
+
+print("LinearSVR = {0:.6f}".format(-1.0 * scores_svr.mean()))
+print("RandomForestRegressor = {0:.6f}".format(-1.0 * scores_rfr.mean()))
 
 
 # ## Result
-# - baseline : 3090.612921
+# - LinearSVR : 2108.266677
+# - RandomForestRegressor : 819.35333
