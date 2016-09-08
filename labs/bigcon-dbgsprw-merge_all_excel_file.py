@@ -100,23 +100,28 @@ for file_name in file_names :
 all_df
 
 
-# In[7]:
+# In[6]:
 
 all_df.info()
 
 
-# In[8]:
+# In[7]:
 
 all_df = all_df.reset_index() # 전체 엑셀파일 데이터 다 모으고 하면됌
 all_df = all_df.drop('index',axis=1)
 
 
-# In[9]:
+# In[8]:
 
 all_df.info()
 
 
 # In[10]:
 
-all_df.to_csv('all_data.csv', index=False)
+all_df.to_pickle('all_df.p')
+
+
+# In[ ]:
+
+
 
